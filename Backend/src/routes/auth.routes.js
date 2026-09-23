@@ -29,9 +29,14 @@ authRouter.get("/logout",authController.logoutUserController)
  * @description Get the details of the logged-in user
  * @access Private
  */
+console.log("authUser:", typeof authMiddleware.authUser)
+console.log("getMeController:", typeof authController.getMeController)
 
-authRouter.get("/get-me",authMiddleware.authuser,)
- 
+authRouter.get(
+    "/get-me",
+    (req, res, next) => authMiddleware.authUser(req, res, next),
+    (req, res) => authController.getMeController(req, res)
+)
 
  
 
