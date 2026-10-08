@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../../../styles/button.scss";
 import { useNavigate, Link } from "react-router";
+import { useAuth } from '../hooks/useauth';
 
 const Register = () => {
 
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const [username, setUsername]= useState("")
+  const [email, setemail] = useState("")
+  const [password, setpassword] = useState("")
+
+  const{loading,handleRegister} = useAuth()
+  const handleSubmit = async (e) => {
         e.preventDefault();
+        await handleRegister({username,email,password})
+        navigate("/")
         // Handle form submission logic here
+    }
+      if (loading) {
+        return (
+            <main>
+                <h1>Loading.....</h1>
+            </main>
+        );
     }
  return (
     <main>
@@ -18,6 +33,7 @@ const Register = () => {
           <div className="input-group">
             <label htmlFor="username">Username</label>
             <input
+            onChange={(e)=>{setUsername(e.target.value)}}
               type="text"
               id="username"
               name="username"
@@ -27,6 +43,7 @@ const Register = () => {
           <div className="input-group">
             <label htmlFor="Email">Email </label>
             <input
+            onChange={(e)=>{setEmail(e.target.value)}}
               type="text"
               id="Email"
               name="Email"
@@ -37,6 +54,7 @@ const Register = () => {
           <div className="input-group">
             <label htmlFor="password">Password</label>
             <input
+            onChange={(e)=>{setpassword(e.target.value)}}
               type="password"
               id="password"
               name="password"
